@@ -7,35 +7,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* ── Match dashboard palette ── */
-  --bg:        #eef9f2;
-  --surface:   #ffffff;
-  --surface2:  #f4fbf7;
-  --border:    #d4eddf;
-  --border2:   #c0e2ce;
-  --text:      #0f1f17;
-  --muted:     #6b8f78;
-  --muted2:    #4a7060;
-  --hdr-bg:    #1a3528;
-  --hdr-text:  #e8f5ed;
-  --hdr-muted: #7aaa8e;
+  /* ── Dark theme (original) ── */
+  --bg:        #080b0d;
+  --surface:   #0e1215;
+  --surface2:  #141a1f;
+  --border:    #1e2830;
+  --border2:   #263340;
+  --text:      #dde8f0;
+  --muted:     #4a6070;
+  --muted2:    #6a8090;
+  --hdr-bg:    #0a0d0f;
+  --hdr-text:  #dde8f0;
+  --hdr-muted: #4a7060;
 
   /* accent colours */
-  --green:  #16a34a;
-  --blue:   #2563eb;
-  --purple: #7c3aed;
-  --orange: #ea580c;
-  --teal:   #0d9488;
-  --red:    #dc2626;
-  --gold:   #ca8a04;
+  --green:  #00e5a0;
+  --blue:   #0096ff;
+  --purple: #b060ff;
+  --orange: #ff6b35;
+  --teal:   #6dd96d;
+  --red:    #ff3d5a;
+  --gold:   #f5c842;
 
-  /* session type colours */
-  --c-rest-bg:    #f1f5f2; --c-rest-bdr:    #c8d8cc; --c-rest-txt:    #6b8f78;
-  --c-easy-bg:    #f0fdf4; --c-easy-bdr:    #86efac; --c-easy-txt:    #16a34a;
-  --c-tempo-bg:   #eff6ff; --c-tempo-bdr:   #93c5fd; --c-tempo-txt:   #2563eb;
-  --c-long-bg:    #faf5ff; --c-long-bdr:    #c4b5fd; --c-long-txt:    #7c3aed;
-  --c-shakeout-bg:#f0fdfa; --c-shakeout-bdr:#5eead4; --c-shakeout-txt:#0d9488;
-  --c-race-bg:    #fff7ed; --c-race-bdr:    #fdba74; --c-race-txt:    #ea580c;
+  /* session type colours — dark bg, glow border, bright text */
+  --c-rest-bg:    #141c22; --c-rest-bdr:    #263340; --c-rest-txt:    #4a6070;
+  --c-easy-bg:    #071f18; --c-easy-bdr:    #0a4030; --c-easy-txt:    #00e5a0;
+  --c-tempo-bg:   #071525; --c-tempo-bdr:   #0a2545; --c-tempo-txt:   #0096ff;
+  --c-long-bg:    #160d28; --c-long-bdr:    #2a1250; --c-long-txt:    #b060ff;
+  --c-shakeout-bg:#0a1f0f; --c-shakeout-bdr:#143520; --c-shakeout-txt:#6dd96d;
+  --c-race-bg:    #2a0d00; --c-race-bdr:    #4a1a00; --c-race-txt:    #ff6b35;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -296,7 +296,7 @@ body::before {
   transition:border-color 0.15s, box-shadow 0.15s;
   appearance:none; -webkit-appearance:none;
 }
-.fi:focus { border-color:var(--green); box-shadow:0 0 0 3px rgba(22,163,74,0.12); }
+.fi:focus { border-color:var(--green); box-shadow:0 0 0 3px rgba(0,229,160,0.1); }
 .fi option { background:var(--surface); color:var(--text); }
 textarea.fi { resize:vertical; min-height:80px; line-height:1.7; font-size:11.5px; font-family:'DM Mono',monospace; }
 input[type=number].fi { -moz-appearance:textfield; }
@@ -314,8 +314,8 @@ input[type=number].fi::-webkit-inner-spin-button { -webkit-appearance:none; }
   cursor:pointer; transition:all 0.15s; font-weight:400;
 }
 .sbt:hover { border-color:var(--muted2); color:var(--text); background:var(--surface); }
-.sbt.done-on    { background:#f0fdf4; border-color:#86efac; color:var(--green); }
-.sbt.missed-on  { background:#fef2f2; border-color:#fca5a5; color:var(--red); }
+.sbt.done-on    { background:rgba(0,229,160,0.1); border-color:var(--green); color:var(--green); }
+.sbt.missed-on  { background:rgba(255,61,90,0.1); border-color:var(--red); color:var(--red); }
 .sbt.pending-on { background:var(--surface); border-color:var(--muted2); color:var(--muted2); }
 
 /* Move row */
@@ -332,8 +332,8 @@ input[type=number].fi::-webkit-inner-spin-button { -webkit-appearance:none; }
   text-transform:uppercase; white-space:nowrap; padding:3px 10px;
   border-radius:10px; border:1px solid var(--border2); background:var(--surface);
 }
-.block-sep-label.lbl-hm2  { color:var(--blue);   border-color:#93c5fd; background:#eff6ff; }
-.block-sep-label.lbl-10k  { color:var(--purple); border-color:#c4b5fd; background:#faf5ff; }
+.block-sep-label.lbl-hm2  { color:var(--blue);   border-color:var(--c-tempo-bdr); background:var(--c-tempo-bg); }
+.block-sep-label.lbl-10k  { color:var(--purple); border-color:var(--c-long-bdr);  background:var(--c-long-bg); }
 </style>
 </head>
 <body>
