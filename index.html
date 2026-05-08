@@ -68,26 +68,19 @@
     .pr-p{font-size:10px;color:var(--gray);margin-top:4px}
     .pr-dt{font-size:9px;color:var(--gray2);margin-top:2px}
 
-    /* Row 2 — race prediction + shoe mileage (inline, compact) */
-    .row2{display:grid;grid-template-columns:1.7fr 1fr;gap:var(--gap);margin-bottom:var(--gap)}
-    .race-card{background:var(--card);border-radius:var(--r);padding:20px 24px;box-shadow:var(--shadow);border-top:4px solid var(--purple)}
-    .race-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:var(--gray);margin-bottom:6px}
-    .race-hm{font-size:38px;font-weight:800;color:var(--purple);line-height:1;font-variant-numeric:tabular-nums}
-    .race-hm sup{font-size:12px}
-    .race-splits{display:flex;gap:16px;margin-top:6px;flex-wrap:wrap}
-    .race-split{font-size:11px;color:var(--gray)}
-    .race-split strong{color:var(--text);font-weight:700}
-    .race-note{font-size:10px;color:var(--green);font-weight:600;margin-top:5px}
-    .race-method{font-size:9px;color:var(--gray2);margin-top:3px}
-
-    /* Shoe card */
-    .shoe-card{background:var(--card);border-radius:var(--r);padding:20px 24px;box-shadow:var(--shadow);border-top:4px solid var(--teal);display:flex;flex-direction:column;gap:10px}
-    .shoe-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
-    .shoe-name{font-size:11px;font-weight:600}
-    .shoe-km{font-family:'SF Mono','Fira Code',monospace;font-size:12px;font-weight:600}
-    .shoe-track{height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden}
-    .shoe-fill{height:100%;border-radius:3px;transition:width .5s ease}
-    .shoe-meta{font-size:9px;color:var(--gray2);margin-top:2px}
+    /* Shoe card — full width */
+    .shoe-card{background:var(--card);border-radius:var(--r);padding:20px 24px;box-shadow:var(--shadow);border-top:4px solid var(--teal);margin-bottom:var(--gap)}
+    .shoe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:12px}
+    .shoe-item{background:#f8fafc;border-radius:8px;padding:14px 16px;border:1px solid var(--border)}
+    .shoe-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+    .shoe-name{font-size:12px;font-weight:700;color:var(--text)}
+    .shoe-km{font-family:'SF Mono','Fira Code',monospace;font-size:14px;font-weight:800}
+    .shoe-track{height:7px;background:#e5e7eb;border-radius:4px;overflow:hidden;margin-bottom:6px}
+    .shoe-fill{height:100%;border-radius:4px;transition:width .6s ease}
+    .shoe-meta{font-size:9px;color:var(--gray2)}
+    .shoe-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle}
+    .shoe-badge.race{background:#ede9fe;color:#6d28d9}
+    .shoe-badge.trainer{background:#dcfce7;color:#15803d}
 
     /* Charts */
     .g2{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-bottom:var(--gap)}
@@ -175,29 +168,6 @@
     </div>
   </header>
 
-  <!-- Race Readiness -->
-  <div class="rr" id="rrCard" style="display:none">
-    <div class="rr-score default" id="rrScore">
-      <div class="rr-num" id="rrNum">—</div>
-      <div class="rr-lbl">Ready</div>
-    </div>
-    <div class="rr-mid">
-      <h3>🏁 Race Readiness · May 3</h3>
-      <div class="rr-verdict" id="rrVerdict">Calculating…</div>
-      <div class="rr-bars">
-        <div class="rr-bar"><div class="rr-bar-l"><span>Weekly km</span><span id="rrB1">—</span></div><div class="rr-track"><div class="rr-fill" id="rrF1" style="width:0;background:#16a34a"></div></div></div>
-        <div class="rr-bar"><div class="rr-bar-l"><span>Long runs</span><span id="rrB2">—</span></div><div class="rr-track"><div class="rr-fill" id="rrF2" style="width:0;background:#7c3aed"></div></div></div>
-        <div class="rr-bar"><div class="rr-bar-l"><span>HR efficiency</span><span id="rrB3">—</span></div><div class="rr-track"><div class="rr-fill" id="rrF3" style="width:0;background:#2563eb"></div></div></div>
-        <div class="rr-bar"><div class="rr-bar-l"><span>Taper</span><span id="rrB4">—</span></div><div class="rr-track"><div class="rr-fill" id="rrF4" style="width:0;background:#0d9488"></div></div></div>
-      </div>
-    </div>
-    <div class="rr-right">
-      <div class="rr-pred" id="rrPred">—</div>
-      <div class="rr-pred-l">Predicted HM</div>
-      <div class="rr-days" id="rrDays">— days to race</div>
-    </div>
-  </div>
-
   <!-- KPI row — 5 cards -->
   <section class="kpi-row">
     <div class="kpi">
@@ -245,23 +215,10 @@
   <!-- Personal Records — race distances -->
   <div class="pr-grid" id="prGrid"></div>
 
-  <!-- Race Prediction + Shoe Mileage -->
-  <div class="row2">
-    <div class="race-card">
-      <div class="race-lbl">🎯 Garmin Race Prediction <span style="font-size:9px;opacity:.7">· update GARMIN_HM_PRED in config after long runs</span></div>
-      <div class="race-hm" id="predHM">—<sup>HM</sup></div>
-      <div class="race-splits">
-        <div class="race-split">5K <strong id="p5k">—</strong></div>
-        <div class="race-split">10K <strong id="p10k">—</strong></div>
-        <div class="race-split">Marathon <strong id="pFM">—</strong></div>
-      </div>
-      <div class="race-note" id="predNote"></div>
-      <div class="race-method" id="predMethod"></div>
-    </div>
-    <div class="shoe-card">
-      <div class="kpi-l">👟 Shoe Mileage</div>
-      <div id="shoeList"></div>
-    </div>
+  <!-- Shoe Mileage -->
+  <div class="shoe-card">
+    <div class="kpi-l">👟 Shoe Mileage</div>
+    <div class="shoe-grid" id="shoeList"></div>
   </div>
 
   <!-- Charts: Weekly Mileage + HR Trend -->
@@ -318,7 +275,8 @@ const Z = {
 };
 
 const SHOES = [
-  { name:'Adidas Adizero EVO SL', startDate:'2026-02-14', maxKm:500, color:'#0d9488' },
+  { name:'ASICS MetaSpeed Sky+', startDate:'2026-05-03', maxKm:400, color:'#7c3aed', badge:'race' },
+  { name:'Adidas Adizero EVO SL', startDate:'2026-02-14', maxKm:500, color:'#0d9488', badge:'trainer' },
 ];
 
 
@@ -442,24 +400,6 @@ function render(runs){
   const moveS=last.pM>0?(last.pM*60+last.pS)*last.dist:0;
   set('lrTime', moveS>0?secToHMS(moveS):'—');
 
-  // ── Race predictor — Garmin primary ──
-  // Also sync Race Readiness predicted HM with Garmin (API value is stale)
-  set('rrPred', GARMIN_HM_PRED);
-  document.getElementById('predHM').innerHTML=`${GARMIN_HM_PRED}<sup>HM</sup>`;
-  const [gH,gM,gS]=GARMIN_HM_PRED.split(':').map(Number);
-  const gHMsec=gH*3600+gM*60+gS;
-  set('p5k',  secToHMS(riegel(gHMsec,21.0975,5)));
-  set('p10k', secToHMS(riegel(gHMsec,21.0975,10)));
-  set('pFM',  secToHMS(riegel(gHMsec,21.0975,42.195)));
-  const gMin=gHMsec/60;
-  set('predNote',
-    gMin<100?'🔥 Sub 1:40 — elite!':
-    gMin<110?'🔥 Sub 1:50 — excellent!':
-    gMin<120?'✓ Sub 2:00 — on track!':
-    gMin<122?'✓ Sub 2:02 goal — on track! ✓':
-    gMin<125?'✓ Sub 2:05 — solid!':
-    gMin<130?'↑ Building toward sub 2:10':'↑ Keep going — improving!');
-  set('predMethod','Garmin VO2max-based · update GARMIN_HM_PRED in config after each sync');
 
   // ── Shoes ──
   const sl=document.getElementById('shoeList'); sl.innerHTML='';
@@ -468,10 +408,14 @@ function render(runs){
     const km=shoeRuns.reduce((s,r)=>s+r.dist,0);
     const pct=Math.min(100,km/sh.maxKm*100);
     const col=pct>80?'#dc2626':pct>60?'#ea580c':sh.color;
-    sl.innerHTML+=`<div>
-      <div class="shoe-row"><span class="shoe-name">${sh.name}</span><span class="shoe-km">${km.toFixed(0)} km</span></div>
+    const badgeHtml=sh.badge?`<span class="shoe-badge ${sh.badge}">${sh.badge==='race'?'🏁 Race':'🏃 Trainer'}</span>`:'';
+    sl.innerHTML+=`<div class="shoe-item">
+      <div class="shoe-row">
+        <span class="shoe-name">${sh.name}${badgeHtml}</span>
+        <span class="shoe-km" style="color:${col}">${km.toFixed(0)} km</span>
+      </div>
       <div class="shoe-track"><div class="shoe-fill" style="width:${pct.toFixed(1)}%;background:${col}"></div></div>
-      <div class="shoe-meta">${pct.toFixed(1)}% used · ${Math.max(0,sh.maxKm-km).toFixed(0)} km remaining · replace at ${sh.maxKm} km</div>
+      <div class="shoe-meta">${pct.toFixed(1)}% of ${sh.maxKm} km · ${Math.max(0,sh.maxKm-km).toFixed(0)} km remaining${sh.startDate?' · since '+sdt(sh.startDate):''}</div>
     </div>`;
   });
 
@@ -673,7 +617,7 @@ async function boot(){
       const aData = await aRes.json();
       window._analyticsWeekly = aData.weekly || [];
     }
-    if(rrRes.ok){ renderReadiness(await rrRes.json()); }
+    if(rrRes.ok){ /* readiness card removed */ }
     const d = await rRes.json();
     if(!d.runs||!d.runs.length) throw new Error('No runs found');
     render(d.runs);
