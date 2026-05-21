@@ -501,7 +501,24 @@ body.detail-open .main { padding-right:360px; }
         </div>
       </div>
 
-      <button class="det-edit-btn" onclick="toggleEdit()">✎ Edit Session</button>
+      <div style="display:flex; gap:6px;">
+        <button class="det-edit-btn" onclick="toggleEdit()" style="flex:1">✎ Edit Session</button>
+        <button class="det-edit-btn" onclick="toggleMove()" style="flex:1">↗ Move to Date</button>
+      </div>
+
+      <div class="edit-form" id="moveForm" style="display:none; flex-direction:column; gap:10px;">
+        <div class="ef-row">
+          <label class="ef-label">Move this session to</label>
+          <input class="ef-input" id="moveDate" type="date">
+        </div>
+        <div style="font-size:10px; color:var(--muted); line-height:1.5;">
+          Original date becomes a rest day. Session data moves to the new date.
+        </div>
+        <div class="ef-btns">
+          <button class="ef-btn save"   onclick="saveMove()">Move</button>
+          <button class="ef-btn cancel" onclick="toggleMove()">Cancel</button>
+        </div>
+      </div>
 
       <div class="edit-form" id="edForm">
         <div class="ef-row">
@@ -1151,8 +1168,9 @@ function openDetail(dateStr) {
     btn.className = 'status-btn' + (day.status === s.toLowerCase() ? ` active-${s.toLowerCase()}` : '');
   });
 
-  // Reset edit form
+  // Reset edit / move forms
   document.getElementById('edForm').style.display = 'none';
+  document.getElementById('moveForm').style.display = 'none';
 }
 
 function closeDetail() {
@@ -1209,6 +1227,41 @@ function saveEdit() {
   updateStats();
   openDetail(sel);
   document.getElementById('edForm').style.display = 'none';
+}
+
+// ─── MOVE SINGLE SESSION ─────────────────────────────────────────────────────
+function toggleMove() {
+  const form = document.getElementById('moveForm');
+  const edForm = document.getElementById('edForm');
+  if (form.style.display === 'flex') { form.style.display = 'none'; return; }
+  edForm.style.display = 'none';
+  document.getElementById('moveDate').value = sel || '';
+  form.style.display = 'flex';
+}
+
+function saveMove() {
+  if (!sel) return;
+  const newDate = document.getElementById('moveDate').value;
+  if (!newDate || newDate === sel) { document.getElementById('moveForm').style.display = 'none'; return; }
+  const day = getDay(sel);
+  // Copy session to new date
+  overrides[newDate] = {
+    ...(overrides[newDate] || {}),
+    name:  day.name,
+    type:  day.type,
+    km:    day.km,
+    pace:  day.pace,
+    hr:    day.hr,
+    notes: day.notes,
+    status: day.status === 'done' ? 'done' : 'pending',
+  };
+  // Blank original date (make it a rest day)
+  overrides[sel] = { type:'rest', name:'Rest / Off', km:0, pace:'', hr:'', notes:'', status:'pending' };
+  save();
+  document.getElementById('moveForm').style.display = 'none';
+  sel = newDate;
+  renderMain(); renderCal(); updateStats();
+  openDetail(newDate);
 }
 
 // ─── PLAN SHIFT ──────────────────────────────────────────────────────────────
